@@ -23,8 +23,8 @@ def update_dayone():
         x = resp.json()
         if (len(x)!=0):
             try:
-                for j in tqdm(x):
-                    update_byday_countrycode = ('INSERT INTO THONGKEQGBYDAY(MAQG,TINH,THANHPHO,SOCAMAC,SOCACHET,SOCAKHOI,NGAYGHINHAN) values(:a,:b,:c,:d,:e,:f,:g)')
+                for j in x:
+                    update_byday_countrycode = ('INSERT INTO THONGKEQGBYDAY(MAQG,TINH,THANHPHO,SOCAMAC,SOCACHET,SOCAKHOI,NGAYGHINHAN) select :a,:b,:c,:d,:e,:f,:g from dual where not exists(select * from THONGKEQGBYDAY where (MAQG = :a and TINH = :b and THANHPHO = :c and NGAYGHINHAN = :g))')
                     a = j["Date"]
                     b = a[:10]
                     tmp = datetime.datetime.strptime(b, '%Y-%m-%d')
