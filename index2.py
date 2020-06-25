@@ -33,7 +33,7 @@ def update_data_by_country():
     x = resp.json()
     print(datetime.datetime.now().strftime("%H:%M:%S") + " Đã lấy xong dữ liệu, tiến hành thêm dữ liệu mới vào database")
     for j in tqdm(x):
-        update_data_byday_countrycode = ('INSERT INTO THONGKEQGBYDAY values(:a,:b,:c,:d,:e,:f,:g)')
+        update_data_byday_countrycode = ('INSERT INTO THONGKEQGBYDAY(MAQG,TINH,THANHPHO,SOCAMAC,SOCACHET,SOCAKHOI,NGAYGHINHAN) values(:a,:b,:c,:d,:e,:f,:g)')
         a = j["Date"]
         b = a[:10]
         tmp = datetime.datetime.strptime(b, '%Y-%m-%d')

@@ -52,9 +52,6 @@ def update_data():
     c = conn.cursor()
     print(datetime.datetime.now().strftime("%H:%M:%S") + " Cập nhật dữ liệu bảng THONGKEQG")
     for ct in tqdm(x["Countries"]):
-        if ct["TotalConfirmed"] == None: ct["TotaConfirmed"] = 0
-        if ct["TotalDeaths"] == None: ct["TotaDeaths"] = 0
-        if ct["TotalRecovered"] == None: ct["TotaRecovered"] = 0
         try:
             sql_update_countries = ("update THONGKEQG set TONGSOCAMAC = :a, TONGSOCACHET = :b, TONGSOCAKHOI = :c where MAQG = :d")
             c.execute(sql_update_countries,{'a': ct["TotalConfirmed"],'b': ct["TotalDeaths"],'c': ct["TotalRecovered"],'d': ct["CountryCode"]})
