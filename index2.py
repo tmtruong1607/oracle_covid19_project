@@ -6,19 +6,31 @@ import datetime
 from tqdm.auto import tqdm
 
 
+def insert_data():
+    dsn_tns = cx_Oracle.makedsn('localhost', '1522', service_name='covid19db')
+    conn = cx_Oracle.connect(user=r'sa', password='123456', dsn=dsn_tns)
+    c = conn.cursor()
+    # for i in c:
+    print(datetime.datetime.now().strftime("%H:%M:%S") + " Tiến hành lấy dữ liệu từ API")
+    resp = requests.get('https://api.covid19api.com/countries')
+    x = resp.json()
+    print(
+        datetime.datetime.now().strftime("%H:%M:%S") + " Đã lấy xong dữ liệu, tiến hành thêm dữ liệu mới vào database")
+    for j in tqdm(x):
+        insert_country = ('INSERT INTO QUOCGIA values(:a,:b)')
+        c.execute(insert_country,{'a': j["ISO2"], 'b': j["Country"]})
+        conn.commit()
+    print(datetime.datetime.now().strftime("%H:%M:%S") + " Thêm dữ liệu xong")
 
 ###update data
 def update_data_by_country():
-    dsn_tns = cx_Oracle.makedsn('mt2-PC.mshome.net', '1522', service_name='covid19db')
+    dsn_tns = cx_Oracle.makedsn('localhost', '1522', service_name='covid19db')
     conn = cx_Oracle.connect(user=r'sa', password='123456', dsn=dsn_tns)
     c = conn.cursor()
     c.execute("select MAQG from QUOCGIA")
     # for i in c:
     print(datetime.datetime.now().strftime("%H:%M:%S") + " Tiến hành lấy dữ liệu từ API")
     resp = requests.get('https://api.covid19api.com/all')
-    if resp.status_code != 200:
-        # This means something went wrong.
-        raise ApiError('GET /tasks/ {}'.format(resp.status_code))
     x = resp.json()
     print(datetime.datetime.now().strftime("%H:%M:%S") + " Đã lấy xong dữ liệu, tiến hành thêm dữ liệu mới vào database")
     # for j in tqdm(range(len(x))):
@@ -36,4 +48,6 @@ def update_data_by_country():
         conn.commit()
 
     print(datetime.datetime.now().strftime("%H:%M:%S") + " Thêm dữ liệu xong")
+insert_data()
 update_data_by_country()
+
