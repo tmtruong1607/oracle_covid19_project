@@ -7,7 +7,7 @@ import datetime
 
 ###update data dayone
 def update_dayone():
-    dsn_tns = cx_Oracle.makedsn('mt2-PC.mshome.net', '1522', service_name='covid19db')
+    dsn_tns = cx_Oracle.makedsn('localhost', '1522', service_name='covid19db')
     conn = cx_Oracle.connect(user=r'sa', password='123456', dsn=dsn_tns)
     c = conn.cursor()
     sql_select_countries = ("select MAQG from QUOCGIA")
@@ -47,7 +47,7 @@ def update_dayone():
 def update_data():
     resp = requests.get('https://api.covid19api.com/summary')
     x = resp.json()
-    dsn_tns = cx_Oracle.makedsn('mt2-PC.mshome.net', '1522', service_name='covid19db')
+    dsn_tns = cx_Oracle.makedsn('localhost', '1522', service_name='covid19db')
     conn = cx_Oracle.connect(user=r'sa', password='123456', dsn=dsn_tns)
     c = conn.cursor()
     print(datetime.datetime.now().strftime("%H:%M:%S") + " Cập nhật dữ liệu bảng THONGKEQG")
